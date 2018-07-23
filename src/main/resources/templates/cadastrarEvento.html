@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>Serviços</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    
+</head>
+<body>
+    <div class="container-fluid">
+	 	<div class="row text-center">
+	 		<h2><strong>Cadastro de Eventos</strong></h2>
+	 		<br/>
+	 	</div>
+	 	
+	 	<div class="row" >
+	 		<div class="col-md-4 col-xs-1"></div>
+	 		
+	 		<div class="col-md-4 col-xs-10" style="border:1px solid #cecece; padding:1em;">
+	 			<h3><span th:text="${sucesso}" style="color: green;"></span></h3>
+	 			<h3><span th:text="${erro}" style="color: red;"></span></h3>	
+		 		
+		 		<form action="salvarEvento" method="post">
+		 			<div class="form-group">
+		 				<label for="descricao">Descrição</label>
+		 				<textarea class="form-control" id="descricao" name="descricao" rows="10"></textarea>
+					</div>
+					
+					<div class="form-group">
+						<label for="dataEvento">Data Evento</label>
+						<input type="date" id="dataEvento" class="form-control" name="dataEvento"></input>
+					</div>
+					
+					<div class="form-group">
+						<label for="tipoSociedade">Sociedade</label>
+						<select class="form-control" id="tipoSociedade" th:field="*{sociedades}" name="tipoSociedade">
+							<option th:each="sociedade : ${sociedades}" th:value="${sociedade.tipo}" th:text="${sociedade.descricao}"></option>
+						</select>													
+		 		    </div>	 
+					
+					<div class="row" style=" margin-left:1px;">
+		 				<button type="submit" class="btn btn-primary">Salvar</button>
+				    </div>	
+				</form>
+			</div>
+			<div class="col-md-4 col-xs-1"></div>
+	 	</div>
+	 	
+	 		
+	</div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
