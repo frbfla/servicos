@@ -1,6 +1,5 @@
 package br.com.fastmanners.servicos.model;
 
-import java.sql.Blob;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -44,7 +44,8 @@ public class Evento {
 	@Enumerated
 	private TipoSociedade tipoSociedade;
 	
-	private Blob arquivoImagem;
+	@Lob
+	private byte[] imagemEvento;
 
 	public Long getId() {
 		return id;
@@ -86,12 +87,12 @@ public class Evento {
 		this.dataPublicacao = dataPublicacao;
 	}
 
-	public Blob getArquivoImagem() {
-		return arquivoImagem;
+	public byte[] getImagemEvento() {
+		return imagemEvento;
 	}
 	
-	public void setArquivoImagem(Blob arquivoImagem) {
-		this.arquivoImagem = arquivoImagem;
+	public void setImagemEvento(byte[] imagemEvento) {
+		this.imagemEvento = imagemEvento;
 	}
 	
 	@Override

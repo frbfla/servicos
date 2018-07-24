@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:dt="http://www.thymeleaf.org/dandelion/datatables">
+	
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Serviços</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="principal/css/servicos.css" rel="stylesheet"/>
     
 </head>
 <body>
@@ -22,36 +25,87 @@
 	 			<h3><span th:text="${sucesso}" style="color: green;"></span></h3>
 	 			<h3><span th:text="${erro}" style="color: red;"></span></h3>	
 		 		
-		 		<form action="salvarEvento" method="post">
-		 			<div class="form-group">
-		 				<label for="descricao">Descrição</label>
-		 				<textarea class="form-control" id="descricao" name="descricao" rows="10"></textarea>
+		 		<form action="salvarEvento" method="post" enctype="multipart/form-data" class="contact-form">
+					<div class="form-group">
+						<input type="text" class="form-control" id="descricao" name="descricao" required="required" placeholder="Descrição do evento..."/>
 					</div>
 					
 					<div class="form-group">
-						<label for="dataEvento">Data Evento</label>
-						<input type="date" id="dataEvento" class="form-control" name="dataEvento"></input>
+						<input type="date" class="form-control" id="dataEvento" name="dataEvento"/>
 					</div>
 					
 					<div class="form-group">
-						<label for="tipoSociedade">Sociedade</label>
-						<select class="form-control" id="tipoSociedade" th:field="*{sociedades}" name="tipoSociedade">
-							<option th:each="sociedade : ${sociedades}" th:value="${sociedade.tipo}" th:text="${sociedade.descricao}"></option>
-						</select>													
-		 		    </div>	 
+						<select class="form-control" id="tipoSociedade" name="tipoSociedade" required="required">
+						    <option value="" disabled="disabled" selected="selected">-- Escolha a Sociedade --</option>
+							<option th:each="sociedade : ${sociedades}"
+					                th:value="${sociedade.tipo}"
+					                th:text="${sociedade.descricao}"
+					                th:selected="${sociedade.equals(tipoSociedade)}"/>
+					    </select>
+					</div>
 					
-					<div class="row" style=" margin-left:1px;">
-		 				<button type="submit" class="btn btn-primary">Salvar</button>
-				    </div>	
-				</form>
+					<div class="form-group">
+						<div class="input-group input-file" name="fotoEvento">
+							<span class="input-group-btn">
+				        		<button class="btn btn-danger btn-choose" type="button">Escolha</button>
+				    		</span>
+				    		<input type="text" class="form-control" placeholder='Escolha uma imagem para o evento...' />
+				    		<span class="input-group-btn">
+				       			 <button class="btn btn-warning btn-reset" type="button">Limpar</button>
+				    		</span>
+						</div>
+					</div>
+					
+					<button type="submit" class="btn btn-default pull-right">Salvar</button>
+				</form>	
 			</div>
 			<div class="col-md-4 col-xs-1"></div>
 	 	</div>
 	 	
+	 	<div class="row" >
+	 		<div class="col-md-4 col-xs-1"></div>
+	 	
+	 		<div class="col-md-4 col-xs-10" style="border:1px solid #cecece; padding:1em;">
+	 			
+	 			<h3 class="tituloTabela">Lista de Eventos</h3>
+	 			
+		 		<div style="padding:1em">
+	               <table id="tabelaEventos" dt:table="true" class="table table-bordered">
+	                  <thead>
+	                  	<tr>
+	                  		<th class="centralizado">Descrição</th>
+	                  		<th class="centralizado">Data evento</th>
+	                  		<th class="centralizado">Data publicação</th>
+	                  		<th class="centralizado">Sociedade</th>
+	                  		<th class="centralizado">Imagem Evento</th>
+	                  	</tr>
+	                  </thead>
+	                  <tbody>
+	         			<tr th:each="evento : ${eventos}">
+	         				<td th:text = "${evento.descricao}"></td>
+	         				<td th:text = "${#dates.format(evento.dataEvento, 'dd/MM/yyyy')}" class="centralizado"></td>
+	         				<td th:text = "${#dates.format(evento.dataPublicacao, 'dd/MM/yyyy')}" class="centralizado"></td>
+	         				<td th:text = "${evento.tipoSociedade}" class="centralizado"></td>
+	         				<td class="centralizado">
+								<a id="imagemArquivo" th:href="@{visualizarFotoEvento/{id}(id=${evento.id})}" target="_blank">
+									 <span class="glyphicon glyphicon-download-alt">&nbsp;Visualizar</span>
+								</a>
+							</td>
+	         			</tr>	         
+	                  </tbody>
+	         	   </table>
+           		</div>
+	 		</div>
+	 	
+	 		<div class="col-md-4 col-xs-1"></div>
+	 	</div>	 	
 	 		
 	</div>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="principal/js/servicos.js"></script>
+    <script src="principal/js/plugins.js"></script>
+    
 </body>
 </html>

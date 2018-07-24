@@ -22,4 +22,9 @@ public class EventoService {
 		repository.save(evento);
 	}
 
+
+	public Evento obterEventoPorId(Long id) {
+		return this.repository.findOne(id);
+	}
+
 }
